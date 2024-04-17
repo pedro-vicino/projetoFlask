@@ -49,11 +49,15 @@ def adiciona() :
     quantidade = request.form['numQuantidade']
     # requestProduto cria uma nova instância da classe Produto,
     # utilizando os valores nome e quantidade obtidos do formulário
-    requestProduto = Produto(nome, quantidade)
-    # a instância do produto recém-criada (requestProduto)
-    # é adicionada à lista de produtos existentes (lista_produtos).
-    lista_produtos.append(requestProduto)
+    requestProduto = Produto(nome_produto = nome,
+                            quantidade_produto = quantidade)
 
-    # renderiza o modelo HTML 'index.html' e passa a lista de produtos (lista_produtos) para o modelo.
-    return render_template('lista.html', todos_produtos = lista_produtos)
+    #a linha abaixo adiciona as informações para envia
+    # para o banco de dados
+    db.session.add(requestProduto)
+
+    #a linha abaixo envia as informações para o banco
+    db.session.commit()
+    return redirect('/lista')
+
 app.run()
