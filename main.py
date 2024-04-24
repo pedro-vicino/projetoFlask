@@ -1,63 +1,123 @@
-#do módulo flask é importada a biblioteca Flask, a função render_template e o request (solicitação)
+# Importação de bibliotecas necessárias do Flask
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
-# linha de código que cria uma instância da classe Flask do framework Flask
+# Criação de uma instância do Flask
 app = Flask(__name__)
 
+# Chave secreta para sessions do Flask
 app.secret_key = 'lojadopedro'
 
-#app.config configura o banco de dados
+# Configuração do banco de dados usando SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = \
     '{SGBD}://{usuario}:{senha}@{servidor}/{database}'.format(
-        SGBD= 'mysql+mysqlconnector',
-        usuario= 'root',
-        senha= 'cida2011',
-        servidor= 'localhost',
-        database= 'loja'
+        SGBD='mysql+mysqlconnector',
+        usuario='root',
+        senha='cida2011',
+        servidor='localhost',
+        database='controle_de_estoque'
     )
 
-#db instacia a class sqlalchemy
+# Inicialização do objeto SQLAlchemy
 db = SQLAlchemy(app)
 
-# classe Produto que é composto pelo construtor init, tendo como atributos nome e quantidade
-class Produto(db.Model):
-    id_produto = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    nome_produto = db.Column(db.String(60), nullable=False)
-    quantidade_produto = db.Column(db.Integer, nullable=False)
-    def __repr__(self):
-        return '<Name %r>' % self.name
+# Definição de modelos de dados usando SQLAlchemy ORM
 
-# ('/') é a página principal, rota raiz. Aqui ficará a parte de inserir o item, junto com a lista
+class Estoque(db.Model):
+    # Modelo para a tabela "Estoque"
+    id_estoque = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    nome_produto = db.Column(db.String(50), nullable=False)
+    marca = db.Column(db.String(50), nullable=False)
+    fornecedor = db.Column(db.String(50), nullable=False)
+    data_valid = db.Column(db.Date, nullable=False)
+    data_de_entrada = db.Column(db.Date, nullable=False)
+    preco_compra = db.Column(db.Float, nullable=False)
+    qtd_em_estoque = db.Column(db.Integer, nullable=False)
+    fk_estoq_plo = db.Column(db.Integer, nullable=True)
+
+class Plo(db.Model):
+    # Modelo para a tabela "Plo"
+    id_plo = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    nome_prod_plo = db.Column(db.String(50), nullable=False)
+    marca_plo = db.Column(db.String(50), nullable=False)
+    forn_plo = db.Column(db.String(50), nullable=False)
+    data_entrada_plo = db.Column(db.Date, nullable=False)
+    qtd_estoq_plo = db.Column(db.String(50), nullable=False)
+    entrada_prod_plo = db.Column(db.String(50), nullable=False)
+    saida_prod_plo = db.Column(db.String(50), nullable=False)
+    status_disp_plo = db.Column(db.String(50), nullable=False)
+    saida_prod_plo = db.Column(db.String(50), nullable=False)
+    status_disp_plo = db.Column(db.String(50), nullable=False)
+    fk_usuario = db.Column(db.Integer, nullable=True)
+
+class Produtos(db.Model):
+    # Modelo para a tabela "Produtos"
+    id_produtos = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome_produtos = db.Column(db.String(50), nullable=False)
+    marca = db.Column(db.String(50), nullable=False)
+    forn_prod = db.Column(db.String(50), nullable=False)
+    data_valid_prod = db.Column(db.Date, nullable=False)
+    data_entrada_prod = db.Column(db.Date, nullable=False)
+    preco_compra = db.Column(db.Float, nullable=False)
+    preco_venda = db.Column(db.Float, nullable=False)
+    quantidade = db.Column(db.Integer, nullable=False)
+    fk_estoque = db.Column(db.Integer, nullable=False)
+
+class Usuario(db.Model):
+    # Modelo para a tabela "Usuario"
+    id_usuario = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    nome = db.Column(db.String(50), nullable=False)
+    senha_hash = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(50), nullable=False)
+    telefone = db.Column(db.Integer, nullable=False)
+    isAdmin = db.Column(db.Boolean, nullable=False)
+
+# Rotas e funções do Flask
+
 @app.route('/lista')
-def lista() :
-    lista_produtos = Produto.query.order_by(Produto.id_produto)
-    return render_template("lista.html", todos_produtos = lista_produtos)
+def lista():
+    # Rota para exibir uma lista de produtos
+    lista_produtos = Produtos.query.order_by(Produtos.id_produtos)
+    return render_template("lista.html", todos_produtos=lista_produtos)
 
 @app.route('/cadastro')
 def cadastrar():
+    # Rota para exibir o formulário de cadastro
     return render_template('cadastro.html')
 
 @app.route('/adiciona', methods=['POST'])
-# def cadastro retorna os valores escritos no formulário do index.html
-# e a lista__produtos, que é a lista dos objetos p1 e p2
-def adiciona() :
-    lista_produtos = Produto.query.order_by(Produto.id_produto)
-    # nome e quantidade: requisições para obter o 
-    # valor submetido com o nome 'txtNome' e 'numQuantidade no formulário.
+def adiciona():
+    # Rota para processar o formulário de cadastro e adicionar um novo produto ao banco de dados
+    lista_produtos = Produtos.query.order_by(Produtos.id_produtos)
+    
+    # Obtendo os dados do formulário
     nome = request.form['txtNome']
+    marca = request.form['txtMarca']
     quantidade = request.form['numQuantidade']
-    # requestProduto cria uma nova instância da classe Produto,
-    # utilizando os valores nome e quantidade obtidos do formulário
-    requestProduto = Produto(nome_produto = nome,
-                            quantidade_produto = quantidade)
+    forn_prod = request.form['txtFornecedor']
+    preco_compra = request.form['txtPreçoCompra'].replace(',', '.')
+    preco_compra = float(preco_compra) # Convertendo para float
+    preco_venda = request.form['txtPreçoCompra'].replace(',', '.')
+    preco_venda = float(preco_venda) # Convertendo para float
+    data_entrada_prod = request.form['dateDataEntrada']
+    data_valid_prod = request.form['dateDataValidade']
+    
+    # Criando uma nova instância do modelo de produto com os dados do formulário
+    novo_produto = Produtos(nome_produtos=nome,
+                            marca=marca,
+                            quantidade=quantidade,
+                            forn_prod=forn_prod,
+                            preco_compra=preco_compra,
+                            preco_venda=preco_venda,
+                            data_entrada_prod=data_entrada_prod,
+                            data_valid_prod=data_valid_prod)
 
-    #a linha abaixo adiciona as informações para envia
-    # para o banco de dados
-    db.session.add(requestProduto)
+    # Adicionando o novo produto ao banco de dados
+    db.session.add(novo_produto)
+    db.session.commit()  # Salvando as mudanças no banco de dados
 
-    #a linha abaixo envia as informações para o banco
-    db.session.commit()
-    return redirect('/lista')
+    return redirect('/lista')  # Redirecionando para a página de lista após a adição do produto
 
-app.run()
+# Execução do aplicativo Flask
+if __name__ == '__main__':
+    app.run(debug=True)
