@@ -16,34 +16,43 @@
     <!-- Container para agrupar e estilizar o conteúdo -->
     <div class="container">
         <!-- Formulário para cadastrar novos produtos -->
-        <form method="POST" action="/adiciona">
+        <form method="POST" action="/atualizar">
+            <!-- Campo Oculto tendo ID do produto como valor -->
+            <input type="hidden" value="{{produto.id_produtos}}" name="txtID">
             <!-- Campo de entrada para o nome do produto -->
             <label>Nome do Produto:</label>
-            <input type="text" name="txtNome" placeholder="Digite..." id="txtNome"><br>
+            <input type="text" name="txtNome" placeholder="Digite..." id="txtNome"
+                value="{{produto.nome_produtos}}"><br>
             <!-- Campo de entrada para a marca do produto -->
             <label>Marca do Produto:</label>
-            <input type="text" name="txtMarca" placeholder="Digite..." id="txtMarca"><br>
+            <input type="text" name="txtMarca" placeholder="Digite..." id="txtMarca" value="{{produto.marca}}"><br>
             <!-- Campo de entrada para a quantidade do produto -->
             <label>Quantidade do Produto:</label>
-            <input type="number" name="numQuantidade" placeholder="Digite..." id="txtQuantidade"><br>
+            <input type="number" name="numQuantidade" placeholder="Digite..." id="txtQuantidade"
+                value="{{produto.quantidade}}"><br>
             <!-- Campo de entrada para o fornecedor do produto -->
             <label>Fornecedor do Produto:</label>
-            <input type="text" name="txtFornecedor" placeholder="Digite..." id="txtFornecedor"><br>
+            <input type="text" name="txtFornecedor" placeholder="Digite..." id="txtFornecedor"
+                value="{{produto.forn_prod}}"><br>
             <!-- Campo de entrada para o preço de compra do produto -->
             <label>Preço de Compra do Produto:</label>
-            <input type="text" name="txtPreçoCompra" placeholder="Digite..." id="txtPreçoCompra"><br>
+            <input type="text" name="txtPreçoCompra" placeholder="Digite..." id="txtPreçoCompra"
+                value="{{produto.preco_compra}}"><br>
             <!-- Campo de entrada para o preço de venda do produto -->
             <label>Preço de Venda do Produto:</label>
-            <input type="text" name="txtPreçoVenda" placeholder="Digite..." id="txtPreçoVenda"><br>
+            <input type="text" name="txtPreçoVenda" placeholder="Digite..." id="txtPreçoVenda"
+                value="{{produto.preco_venda}}"><br>
             <!-- Campo de entrada para a data de entrada do produto -->
             <label>Data de Entrada do Produto:</label>
-            <input type="date" name="dateDataEntrada" placeholder="Digite..." id="dateDataEntrada"><br>
+            <input type="date" name="dateDataEntrada" placeholder="Digite..." id="dateDataEntrada"
+                value="{{produto.data_entrada_prod}}"><br>
             <!-- Campo de entrada para a data de validade do produto -->
             <label>Data de Validade do Produto:</label>
-            <input type="date" name="dateDataValidade" placeholder="Digite..." id="dateDataValidade"><br>
+            <input type="date" name="dateDataValidade" placeholder="Digite..." id="dateDataValidade"
+                value="{{produto.data_valid_prod}}"><br>
 
             <!-- Botão para submeter o formulário -->
-            <button type="submit">Cadastrar</button>
+            <button type="submit" class="btn btn-primary">Atualizar</button>
         </form>
     </div>
 </body>
