@@ -14,8 +14,9 @@
             <th>Preço de Compra</th>
             <th>Preço de Venda</th>
             <th>Data de Entrada</th>
-            <th>Data de Validade</th>
+            <th>Data de Valid.</th>
             <th>Editar</th>
+            <th>Excluir</th>
         </tr>
     </thead>
     <tbody>
@@ -33,6 +34,10 @@
             <!-- Link para a página de edição do produto específico -->
             <td>
                 <a href="{{ url_for('editar', id=produto.id_produtos) }}">Editar</a>
+            </td>
+            <!-- Link para a página de exclusão do produto específico -->
+            <td>
+                <a href="{{url_for('excluir', id=produto.id_produtos)}}">Excluir</a>
             </td>
         </tr>
         {% endfor %}
