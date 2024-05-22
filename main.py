@@ -1,12 +1,13 @@
 # Importação de bibliotecas necessárias do Flask
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify, send_from_directory, render_template_string
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 # Criação de uma instância do Flask
 app = Flask(__name__)
 
 # Chave secreta para sessions do Flask
-app.secret_key = 'lojadopedro'
+app.secret_key = 'controle_de_estoque'
 
 # Configuração do banco de dados usando SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = \
@@ -123,6 +124,7 @@ def adiciona():
 def editar(id) :
     # Rota para exibir o formulário de edição de um produto específico
     produtoSelecionado = Produtos.query.filter_by(id_produtos = id).first()
+    
     return render_template('editar.html', produto = produtoSelecionado)
 
 @app.route('/atualizar', methods=['POST'])
@@ -130,6 +132,7 @@ def atualizar() :
     # Rota para processar a atualização dos dados de um produto específico
     produto = Produtos.query.filter_by(id_produtos = request.form['txtID']).first()
 
+    # As colunas da tabela Produtos recebem os dados do formulário
     produto.nome_produtos = request.form['txtNome']
     produto.marca = request.form['txtMarca']
     produto.quantidade = request.form['numQuantidade']
@@ -156,7 +159,31 @@ def excluir(id):
     # Confirma a transação no banco de dados, aplicando a exclusão realizada na linha anterior.
     db.session.commit()
 
+    # Redireciona à rota /lista
     return redirect('/lista')
+
+@app.route('/')
+def index():
+    # renderiza o arquivo login.html na rota principal
+    return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+
+    # Dados do formulário do login.html
+    nome = request.form['txtNomeUsuario']
+    senha_hash = request.form['txtSenha_hash']
+
+    # Consulta o banco de dados para encontrar o usuário com o nome fornecido
+    usuario = Usuario.query.filter_by(nome=nome).first()
+
+    # Verifica se o usuário existe e se a senha fornecida corresponde à senha armazenada
+    if usuario and usuario.senha_hash == senha_hash :
+        # Se as credenciais estiverem corretas, redireciona para a página /lista
+        return redirect('/lista')
+    else:
+        # Se as credenciais estiverem incorretas, retorna uma mensagem de erro e um status HTTP 401 (não autorizado)
+        return jsonify({"message": "Login falhou. Usuário ou senha incorretos."}), 401
 
 # Execução do aplicativo Flask
 app.run()
