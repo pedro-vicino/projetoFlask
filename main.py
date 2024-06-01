@@ -1,5 +1,5 @@
 # Importação de bibliotecas necessárias do Flask
-from flask import Flask, render_template, request, redirect, jsonify, send_from_directory, render_template_string
+from flask import Flask, render_template, request, redirect, jsonify, send_from_directory, render_template_string, session
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 
 # Chave secreta para sessions do Flask
-app.secret_key = 'controle_de_estoque'
+app.secret_key = 'usuario_logado'
 
 # Configuração do banco de dados usando SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = \
@@ -75,12 +75,16 @@ class Usuario(db.Model):
 # Rotas e funções do Flask
 @app.route('/lista')
 def lista():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None :
+	    return redirect('/')
     # Rota para exibir uma lista de produtos
     lista_produtos = Produtos.query.order_by(Produtos.id_produtos)
     return render_template("lista.html", todos_produtos=lista_produtos)
 
 @app.route('/cadastro')
 def cadastrar():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None :
+	    return redirect('/')
     # Rota para exibir o formulário de cadastro
     return render_template('cadastro.html')
 
@@ -179,11 +183,18 @@ def login():
 
     # Verifica se o usuário existe e se a senha fornecida corresponde à senha armazenada
     if usuario and usuario.senha_hash == senha_hash :
+        session['usuario_logado'] = nome
         # Se as credenciais estiverem corretas, redireciona para a página /lista
         return redirect('/lista')
     else:
         # Se as credenciais estiverem incorretas, retorna uma mensagem de erro e um status HTTP 401 (não autorizado)
         return jsonify({"message": "Login falhou. Usuário ou senha incorretos."}), 401
 
+@app.route('/logout')
+def logout():
+    # Limpa a sessão do usuário
+    session.pop('usuario_logado', None)
+    # Redireciona o usuário para a página de login
+    return redirect('/')
 # Execução do aplicativo Flask
 app.run()

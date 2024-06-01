@@ -1,156 +1,140 @@
-User
-def login():
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-# Dados do formulário do login.html
-nome = request.form['txtNomeUsuario']
-senha_hash = request.form['txtSenha_hash']
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-usuario = Usuario.query.filter_by(nome=nome).first()
+        body,
+        html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: 'Poppins', Arial, Helvetica, sans-serif;
+        }
 
-if usuario and usuario.senha_hash == senha_hash :
-return redirect('/lista')
-else :
-return jsonify({"message": "Login falhou. Usuário ou senha incorretos."}), 401
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
 
-documente essa funão, adicionando breves comentários explicativos
-ChatGPT
-Claro, aqui está a função login documentada com comentários explicativos para facilitar a compreensão do código:
+        .login-container {
+            display: flex;
+            border-radius: 10px;
+            overflow: hidden;
+            /* Para bordas arredondadas */
+        }
 
-python
-Copiar código
-def login():
-# Obtém os dados do formulário do arquivo login.html
-nome = request.form['txtNomeUsuario']
-senha_hash = request.form['txtSenha_hash']
+        .login-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px 0 0 10px;
+            /* Cantos arredondados na esquerda */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            width: 500px;
+            /* Largura da caixa de login diminuída */
+            height: 400px;
 
-# Consulta o banco de dados para encontrar o usuário com o nome fornecido
-usuario = Usuario.query.filter_by(nome=nome).first()
+        }
 
-# Verifica se o usuário existe e se a senha fornecida corresponde à senha armazenada
-if usuario and usuario.senha_hash == senha_hash:
-# Se as credenciais estiverem corretas, redireciona para a página /lista
-return redirect('/lista')
-else:
-# Se as credenciais estiverem incorretas, retorna uma mensagem de erro e um status HTTP 401 (não autorizado)
-return jsonify({"message": "Login falhou. Usuário ou senha incorretos."}), 401
-Aqui está uma explicação do que cada parte do código faz:
+        .black-box {
+            background: #000;
+            width: 600px;
+            /* Largura da caixa preta aumentada */
+            border-radius: 0 10px 10px 0;
+            /* Cantos arredondados na direita */
+        }
 
-nome = request.form['txtNomeUsuario']: Obtém o nome de usuário do formulário de login enviado.
-senha_hash = request.form['txtSenha_hash']: Obtém a senha (presumivelmente já hashada) do formulário de login enviado.
-usuario = Usuario.query.filter_by(nome=nome).first(): Consulta o banco de dados para encontrar um usuário cujo nome
-corresponda ao fornecido.
-if usuario and usuario.senha_hash == senha_hash:: Verifica se um usuário foi encontrado e se a senha hash fornecida
-corresponde à senha armazenada no banco de dados.
-return redirect('/lista'): Se as credenciais estiverem corretas, redireciona o usuário para a página /lista.
-return jsonify({"message": "Login falhou. Usuário ou senha incorretos."}), 401: Se as credenciais estiverem incorretas,
-retorna uma mensagem de erro em formato JSON e um status HTTP 401 (não autorizado).
-a tabela do banco de dados é composta por ?
-ChatGPT
-A tabela do banco de dados referenciada pelo modelo Usuario parece estar composta pelos seguintes campos:
+        .login-box h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
 
-nome: Este campo armazena o nome de usuário.
-senha_hash: Este campo armazena a senha hash do usuário.
-Para ilustrar melhor, vamos imaginar que o modelo Usuario está definido em SQLAlchemy, um popular ORM (Object Relational
-Mapper) para Python. Aqui está um exemplo de como o modelo Usuario poderia ser definido:
+        }
 
-python
-Copiar código
-from flask_sqlalchemy import SQLAlchemy
+        .user-box {
+            position: relative;
+            margin-bottom: 30px;
+        }
 
-db = SQLAlchemy()
+        .user-box input {
+            width: 100%;
+            padding: 10px;
+            background: none;
+            border: none;
+            border-bottom: 1px solid #333;
+            outline: none;
+            color: #333;
+            font-size: 16px;
+        }
 
-class Usuario(db.Model):
-__tablename__ = 'usuarios'
-id = db.Column(db.Integer, primary_key=True)
-nome = db.Column(db.String(80), unique=True, nullable=False)
-senha_hash = db.Column(db.String(128), nullable=False)
+        .user-box label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px 0;
+            pointer-events: none;
+            transition: 0.5s;
+            color: #333;
+        }
 
-def __repr__(self):
-return f'<Usuario {self.nome}>'
-    Descrição dos Campos:
-    id: Um identificador único para cada usuário (geralmente definido como chave primária).
-    nome: O nome de usuário, que deve ser único e não nulo.
-    senha_hash: A senha do usuário armazenada como um hash, que também deve ser não nula.
-    Exemplos de DDL (Data Definition Language):
-    Aqui está um exemplo de como a tabela usuarios poderia ser criada em SQL:
+        .user-box input:focus~label,
+        .user-box input:valid~label {
+            top: -20px;
+            left: 0;
+            color: #03a9f4;
+            font-size: 12px;
+        }
 
-    sql
-    Copiar código
-    CREATE TABLE usuarios (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(80) NOT NULL UNIQUE,
-    senha_hash VARCHAR(128) NOT NULL
-    );
-    Considerações de Segurança:
-    Armazenamento de Senhas: As senhas devem ser sempre armazenadas de forma segura utilizando um algoritmo de hash
-    apropriado (por exemplo, bcrypt, scrypt ou Argon2). Nunca armazene senhas em texto plano.
-    Validação e Sanitização de Entrada: Sempre valide e sanitize a entrada do usuário para prevenir ataques como SQL
-    Injection.
-    Autenticação e Autorização: Certifique-se de implementar práticas de autenticação e autorização robustas para
-    proteger os dados dos usuários.
-    não estou falando desse banco de dados, e sim em geral. Do que as tabelas dos bancos são compostas?
-    ChatGPT
-    Entendi, você está se referindo aos componentes gerais das tabelas em bancos de dados. Aqui está uma descrição
-    geral:
+        button {
+            background: #03a9f4;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 30px;
+        }
 
-    Componentes de Tabelas em
+        button:hover {
+            background: #0288d1;
+        }
+    </style>
+    <title>Login</title>
+</head>
 
-    2/2
+<body>
+    <div class="content">
+        <div class="login-container">
+            <div class="login-box">
+                <h2>Login</h2>
+                <form action="/login" method="POST">
+                    <div class="user-box">
+                        <input type="text" id="txtNomeUsuario" name="txtNomeUsuario">
+                        <label>Usuário</label>
+                    </div>
+                    <div class="user-box">
+                        <input type="password" id="txtSenha_hash" name="txtSenha_hash">
+                        <label>Senha</label>
+                    </div>
+                    <button type="submit">Entrar</button>
+                </form>
+            </div>
+            <div class="black-box"></div>
+        </div>
+    </div>
+</body>
 
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
-    </head>
-
-    <body>
-        <form action="/login" method="POST">
-            <label for="username">Login</label>
-            <input type="text" id="txtNomeUsuario" name="txtNomeUsuario">
-
-            <label for="password">Senha</label>
-            <input type="password" id="txtSenha_hash" name="txtSenha_hash">
-
-            <button type="submit">Entrar</button>
-        </form>
-    </body>
-
-    </html>
-
-    agora, documente esse arquivo html
-    ChatGPT
-    Claro! Vou adicionar comentários ao código HTML para explicar o que cada parte faz:
-
-    html
-    Copiar código
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
-    </head>
-
-    <body>
-        <!-- Formulário de login -->
-        <form action="/login" method="POST">
-            <!-- Rótulo e campo de entrada para o nome de usuário -->
-            <label for="username">Login</label>
-            <!-- Campo de texto para o nome de usuário com o ID e o nome 'txtNomeUsuario' -->
-            <input type="text" id="txtNomeUsuario" name="txtNomeUsuario">
-
-            <!-- Rótulo e campo de entrada para a senha -->
-            <label for="password">Senha</label>
-            <!-- Campo de senha para a senha com o ID e o nome 'txtSenha_hash' -->
-            <input type="password" id="txtSenha_hash" name="txtSenha_hash">
-
-            <!-- Botão para submeter o formulário -->
-            <button type="submit">Entrar</button>
-        </form>
-    </body>
-
-    </html>
+</html>
