@@ -1,8 +1,11 @@
 <!-- Extende a estrutura base "estrutura.html" -->
-{% extends "estrutura.html" %}
+{% extends "estrutura_admin.html" %}
 
 {% block conteudo %}
 <!-- Início da tabela -->
+<style>
+    
+</style>
 <table class="table table-hover">
     <!-- Cabeçalho da tabela -->
     <thead class="table-dark">
@@ -33,11 +36,11 @@
             <td>{{ produto.data_entrada_prod }}</td>
             <!-- Link para a página de edição do produto específico -->
             <td>
-                <a href="{{ url_for('editar', id=produto.id_produtos) }}">Editar</a>
+                <a href="{{ url_for('editar', id=produto.id_produtos) }}" class="edit-btn">Editar</a>
             </td>
             <!-- Link para a página de exclusão do produto específico -->
             <td>
-                <a href="{{url_for('excluir', id=produto.id_produtos)}}">Excluir</a>
+                <a href="{{url_for('excluir', id=produto.id_produtos)}}" class="delete-btn">Excluir</a>
             </td>
         </tr>
         <!-- Fim do Loop -->

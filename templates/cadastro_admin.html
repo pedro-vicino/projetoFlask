@@ -106,62 +106,51 @@
 <body>
     <!-- Container para agrupar e estilizar o conteúdo -->
     <div class="container">
+        <h2>Cadastro do Produto</h2>
         <!-- Formulário para cadastrar novos produtos -->
-        <form method="POST" action="/atualizar">
-            <!-- Campo Oculto tendo ID do produto como valor -->
-            <input type="hidden" value="{{produto.id_produtos}}" name="txtID">
+        <form method="POST" action="/adicionaAdmin">
             <!-- Campo de entrada para o nome do produto -->
             <div class="form-group">
                 <label>Nome do Produto:</label>
-                <input type="text" name="txtNome" placeholder="Digite..." id="txtNome"
-                    value="{{produto.nome_produtos}}">
+                <input type="text" name="txtNome" placeholder="Digite..." id="txtNome">
             </div>
             <!-- Campo de entrada para a marca do produto -->
             <div class="form-group">
                 <label>Marca do Produto:</label>
-                <input type="text" name="txtMarca" placeholder="Digite..." id="txtMarca" value="{{produto.marca}}">
+                <input type="text" name="txtMarca" placeholder="Digite..." id="txtMarca">
             </div>
             <!-- Campo de entrada para a quantidade do produto -->
             <div class="form-group">
                 <label>Quantidade do Produto:</label>
-                <input type="number" name="numQuantidade" placeholder="Digite..." id="txtQuantidade"
-                    value="{{produto.quantidade}}">
+                <input type="number" name="numQuantidade" placeholder="Digite..." id="txtQuantidade">
             </div>
-
             <!-- Campo de entrada para o fornecedor do produto -->
             <div class="form-group">
                 <label>Fornecedor do Produto:</label>
-                <input type="text" name="txtFornecedor" placeholder="Digite..." id="txtFornecedor"
-                    value="{{produto.forn_prod}}">
+                <input type="text" name="txtFornecedor" placeholder="Digite..." id="txtFornecedor">
             </div>
             <!-- Campo de entrada para o preço de compra do produto -->
             <div class="form-group">
                 <label>Preço de Compra do Produto:</label>
-                <input type="text" name="txtPreçoCompra" placeholder="Digite..." id="txtPreçoCompra"
-                    value="{{produto.preco_compra}}">
+                <input type="text" name="txtPreçoCompra" placeholder="Digite..." id="txtPreçoCompra">
             </div>
             <!-- Campo de entrada para o preço de venda do produto -->
             <div class="form-group">
                 <label>Preço de Venda do Produto:</label>
-                <input type="text" name="txtPreçoVenda" placeholder="Digite..." id="txtPreçoVenda"
-                    value="{{produto.preco_venda}}">
+                <input type="text" name="txtPreçoVenda" placeholder="Digite..." id="txtPreçoVenda">
             </div>
-
             <!-- Campo de entrada para a data de entrada do produto -->
             <div class="form-group">
                 <label>Data de Entrada do Produto:</label>
-                <input type="date" name="dateDataEntrada" placeholder="Digite..." id="dateDataEntrada"
-                    value="{{produto.data_entrada_prod}}">
+                <input type="date" name="dateDataEntrada" placeholder="Digite..." id="dateDataEntrada">
             </div>
-
             <!-- Campo de entrada para a data de validade do produto -->
             <div class="form-group">
                 <label>Data de Validade do Produto:</label>
-                <input type="date" name="dateDataValidade" placeholder="Digite..." id="dateDataValidade"
-                    value="{{produto.data_valid_prod}}">
+                <input type="date" name="dateDataValidade" placeholder="Digite..." id="dateDataValidade">
             </div>
             <!-- Botão para submeter o formulário -->
-            <button type="submit" class="btn btn-primary">Atualizar</button>
+            <button type="submit">Cadastrar</button>
         </form>
         <a href="/listaAdmin" class="back-btn">Voltar</a>
         <a href="/logout" class="back2-btn">Logout</a>

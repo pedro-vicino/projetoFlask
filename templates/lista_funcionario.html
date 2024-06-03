@@ -1,0 +1,40 @@
+<!-- Extende a estrutura base "estrutura.html" -->
+{% extends "estrutura_funcionario.html" %}
+
+{% block conteudo %}
+<!-- Início da tabela -->
+<table class="table table-hover">
+    <!-- Cabeçalho da tabela -->
+    <thead class="table-dark">
+        <tr>
+            <th>Nome</th>
+            <th>Marca</th>
+            <th>Quantidade</th>
+            <th>Fornecedor</th>
+            <th>Preço de Compra</th>
+            <th>Preço de Venda</th>
+            <th>Data de Entrada</th>
+            <th>Data de Valid.</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Loop através de todos os produtos para preencher as linhas da tabela -->
+        {% for produto in todos_produtos %}
+        <tr>
+            <td>{{ produto.nome_produtos }}</td>
+            <td>{{ produto.marca }}</td>
+            <td>{{ produto.quantidade }}</td>
+            <td>{{ produto.forn_prod }}</td>
+            <td>{{ produto.preco_compra }}</td>
+            <td>{{ produto.preco_venda }}</td>
+            <td>{{ produto.data_valid_prod }}</td>
+            <td>{{ produto.data_entrada_prod }}</td>
+        </tr>
+        <!-- Fim do Loop -->
+        {% endfor %}
+    </tbody>
+</table>
+</body>
+
+</html>
+{% endblock %}

@@ -23,7 +23,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = \
 db = SQLAlchemy(app)
 
 # Definição de modelos de dados usando SQLAlchemy ORM
-class Estoque(db.Model):
+class estoque(db.Model):
     # Modelo para a tabela "Estoque"
     id_estoque = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     nome_produto = db.Column(db.String(50), nullable=False)
@@ -35,7 +35,7 @@ class Estoque(db.Model):
     qtd_em_estoque = db.Column(db.Integer, nullable=False)
     fk_estoq_plo = db.Column(db.Integer, nullable=True)
 
-class Plo(db.Model):
+class plo(db.Model):
     # Modelo para a tabela "Plo"
     id_plo = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     nome_prod_plo = db.Column(db.String(50), nullable=False)
@@ -48,7 +48,7 @@ class Plo(db.Model):
     status_disp_plo = db.Column(db.String(50), nullable=False)
     fk_usuario = db.Column(db.Integer, nullable=True)
 
-class Produtos(db.Model):
+class produtos(db.Model):
     # Modelo para a tabela "Produtos"
     id_produtos = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nome_produtos = db.Column(db.String(50), nullable=False)
@@ -63,7 +63,7 @@ class Produtos(db.Model):
     def __repr__(self):
         return '<Name %r>' % self.name
 
-class Usuario(db.Model):
+class usuario(db.Model):
     # Modelo para a tabela "Usuario"
     id_usuario = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     nome = db.Column(db.String(50), nullable=False)
@@ -73,25 +73,42 @@ class Usuario(db.Model):
     isAdmin = db.Column(db.Boolean, nullable=False)
 
 # Rotas e funções do Flask
-@app.route('/lista')
-def lista():
-    if 'usuario_logado' not in session or session['usuario_logado'] == None :
+@app.route('/listaAdmin')
+def listaAdmin():
+    if 'admin_logado' not in session or session['admin_logado'] == None :
 	    return redirect('/')
     # Rota para exibir uma lista de produtos
-    lista_produtos = Produtos.query.order_by(Produtos.id_produtos)
-    return render_template("lista.html", todos_produtos=lista_produtos)
+    lista_produtos = produtos.query.order_by(produtos.id_produtos)
+    session.pop('funcionario_logado', None)
+    return render_template("lista_admin.html", todos_produtos=lista_produtos)
 
-@app.route('/cadastro')
-def cadastrar():
-    if 'usuario_logado' not in session or session['usuario_logado'] == None :
+@app.route('/listaFuncionario')
+def listaFuncionario():
+    if 'funcionario_logado' not in session or session['funcionario_logado'] == None :
+	    return redirect('/')
+    # Rota para exibir uma lista de produtos
+    lista_produtos = produtos.query.order_by(produtos.id_produtos)
+    session.pop('admin_logado', None)
+    return render_template("lista_funcionario.html", todos_produtos=lista_produtos)
+
+@app.route('/cadastroAdmin')
+def cadastrarAdmin():
+    if 'admin_logado' not in session or session['admin_logado'] == None:
 	    return redirect('/')
     # Rota para exibir o formulário de cadastro
-    return render_template('cadastro.html')
+    return render_template('cadastro_admin.html')
 
-@app.route('/adiciona', methods=['POST'])
-def adiciona():
+@app.route('/cadastroFuncionario')   
+def cadastrarFuncionario():
+    if 'funcionario_logado' not in session or session['funcionario_logado'] == None:
+	    return redirect('/')
+    # Rota para exibir o formulário de cadastro
+    return render_template('cadastro_funcionario.html')
+
+@app.route('/adicionaAdmin', methods=['POST'])
+def adicionaAdmin():
     # Rota para processar o formulário de cadastro e adicionar um novo produto ao banco de dados
-    lista_produtos = Produtos.query.order_by(Produtos.id_produtos)
+    lista_produtos = produtos.query.order_by(produtos.id_produtos)
     
     # Obtendo os dados do formulário
     nome = request.form['txtNome']
@@ -106,7 +123,7 @@ def adiciona():
     data_valid_prod = request.form['dateDataValidade']
     
     # Criando uma nova instância do modelo de produto com os dados do formulário
-    novo_produto = Produtos(nome_produtos=nome,
+    novo_produto = produtos(nome_produtos=nome,
                             marca=marca,
                             quantidade=quantidade,
                             forn_prod=forn_prod,
@@ -122,19 +139,55 @@ def adiciona():
     db.session.commit()  
 
     # Redirecionando para a página de lista após a adição do produto
-    return redirect('/lista')  
+    return redirect('/listaAdmin')
+
+@app.route('/adicionaFuncionario', methods=['POST'])
+def adicionaFuncionario():
+    # Rota para processar o formulário de cadastro e adicionar um novo produto ao banco de dados
+    lista_produtos = produtos.query.order_by(produtos.id_produtos)
+    
+    # Obtendo os dados do formulário
+    nome = request.form['txtNome']
+    marca = request.form['txtMarca']
+    quantidade = request.form['numQuantidade']
+    forn_prod = request.form['txtFornecedor']
+    preco_compra = request.form['txtPreçoCompra'].replace(',', '.')
+    preco_compra = float(preco_compra) # Convertendo para float
+    preco_venda = request.form['txtPreçoVenda'].replace(',', '.')
+    preco_venda = float(preco_venda) # Convertendo para float
+    data_entrada_prod = request.form['dateDataEntrada']
+    data_valid_prod = request.form['dateDataValidade']
+    
+    # Criando uma nova instância do modelo de produto com os dados do formulário
+    novo_produto = produtos(nome_produtos=nome,
+                            marca=marca,
+                            quantidade=quantidade,
+                            forn_prod=forn_prod,
+                            preco_compra=preco_compra,
+                            preco_venda=preco_venda,
+                            data_entrada_prod=data_entrada_prod,
+                            data_valid_prod=data_valid_prod)
+
+    # Adicionando o novo produto ao banco de dados
+    db.session.add(novo_produto)
+
+    # Salvando as mudanças no banco de dados
+    db.session.commit()  
+
+    # Redirecionando para a página de lista após a adição do produto
+    return redirect('/listaFuncionario')
 
 @app.route('/editar/<int:id>')
 def editar(id) :
     # Rota para exibir o formulário de edição de um produto específico
-    produtoSelecionado = Produtos.query.filter_by(id_produtos = id).first()
+    produtoSelecionado = produtos.query.filter_by(id_produtos = id).first()
     
     return render_template('editar.html', produto = produtoSelecionado)
 
 @app.route('/atualizar', methods=['POST'])
 def atualizar() :
     # Rota para processar a atualização dos dados de um produto específico
-    produto = Produtos.query.filter_by(id_produtos = request.form['txtID']).first()
+    produto = produtos.query.filter_by(id_produtos = request.form['txtID']).first()
 
     # As colunas da tabela Produtos recebem os dados do formulário
     produto.nome_produtos = request.form['txtNome']
@@ -153,18 +206,18 @@ def atualizar() :
     db.session.commit()  
 
     # Ao atualizar o produto, o usuário é redirecionado à página de lista
-    return redirect('/lista')
+    return redirect('/listaAdmin')
 
 @app.route('/excluir/<int:id>')
 def excluir(id):
     # Executa uma consulta para encontrar todos os registros na tabela 'Produtos'. Em seguida, deleta esses registros.
-    Produtos.query.filter_by(id_produtos = id).delete()
+    produtos.query.filter_by(id_produtos = id).delete()
 
     # Confirma a transação no banco de dados, aplicando a exclusão realizada na linha anterior.
     db.session.commit()
 
     # Redireciona à rota /lista
-    return redirect('/lista')
+    return redirect('/listaAdmin')
 
 @app.route('/')
 def index():
@@ -179,21 +232,26 @@ def login():
     senha_hash = request.form['txtSenha_hash']
 
     # Consulta o banco de dados para encontrar o usuário com o nome fornecido
-    usuario = Usuario.query.filter_by(nome=nome).first()
+    usuarios = usuario.query.filter_by(nome=nome).first()
 
     # Verifica se o usuário existe e se a senha fornecida corresponde à senha armazenada
-    if usuario and usuario.senha_hash == senha_hash :
-        session['usuario_logado'] = nome
-        # Se as credenciais estiverem corretas, redireciona para a página /lista
-        return redirect('/lista')
+    if usuarios and usuarios.senha_hash == senha_hash :
+        if usuarios.isAdmin == 1:
+        # Se as credenciais estiverem corretas, redireciona para a página /listaAdmin, lista do administrador
+            session['admin_logado'] = nome
+            return redirect('/listaAdmin')
+        # Se as credenciais estiverem corretas, redireciona para a página /listaFuncionario, lista do funcionário
+        elif usuarios.isAdmin == 0:
+            session['funcionario_logado'] = nome
+            return redirect('/listaFuncionario')
     else:
         # Se as credenciais estiverem incorretas, retorna uma mensagem de erro e um status HTTP 401 (não autorizado)
-        return jsonify({"message": "Login falhou. Usuário ou senha incorretos."}), 401
-
+        return redirect('/')
 @app.route('/logout')
 def logout():
     # Limpa a sessão do usuário
-    session.pop('usuario_logado', None)
+    session.pop('admin_logado', None)
+    session.pop('funcionario_logado', None)
     # Redireciona o usuário para a página de login
     return redirect('/')
 # Execução do aplicativo Flask
