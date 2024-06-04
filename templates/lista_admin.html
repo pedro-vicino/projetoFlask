@@ -51,14 +51,15 @@
         <tr>
             <th>Tipo</th>
             <th>Marca</th>
-            <th>Quantidade</th>
             <th>Fornecedor</th>
             <th>Preço de Compra</th>
             <th>Preço de Venda</th>
             <th>Data de Entrada</th>
             <th>Data de Valid.</th>
+            <th>Quantidade</th>
             <th>Editar</th>
             <th>Excluir</th>
+
         </tr>
     </thead>
     <!-- Corpo da tabela -->
@@ -68,12 +69,12 @@
         <tr>
             <td>{{ produto.nome_produtos }}</td>
             <td>{{ produto.marca }}</td>
-            <td>{{ produto.quantidade }}</td>
             <td>{{ produto.forn_prod }}</td>
             <td>R${{ produto.preco_compra }}</td>
             <td>R${{ produto.preco_venda }}</td>
             <td>{{ produto.data_entrada_prod }}</td>
             <td>{{ produto.data_valid_prod }}</td>
+            <td>{{ produto.quantidade }}</td>
             <!-- Link para a página de edição do produto específico -->
             <td>
                 <a href="{{ url_for('editar', id=produto.id_produtos) }}" class="edit-btn">Editar</a>

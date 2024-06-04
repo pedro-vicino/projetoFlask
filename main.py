@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = \
     '{SGBD}://{usuario}:{senha}@{servidor}/{database}'.format(
         SGBD='mysql+mysqlconnector',
         usuario='root',
-        senha='x',
+        senha='cida2011',
         servidor='localhost',
         database='controle_de_estoque'
     )
