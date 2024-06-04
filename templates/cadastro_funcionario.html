@@ -10,6 +10,10 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap"
         rel="stylesheet">
     <style>
+        * {
+            font-family: 'Poppins', Arial, Helvetica, sans-serif;
+        }
+
         body {
             font-family: 'Poppins', Arial, Helvetica, sans-serif;
             background-color: #f0f0f0;
@@ -20,15 +24,19 @@
             align-items: center;
             height: 100vh;
             box-sizing: border-box;
+            overflow: hidden;
+            /* Prevent body from scrolling */
         }
 
         .container {
             background-color: #fff;
-            padding: 20px 20px 20px 20px;
-            /* Added padding for all sides */
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 400px;
+            max-height: 90vh;
+            /* Adjust this value as needed */
+            overflow-y: auto;
             text-align: center;
         }
 
@@ -47,7 +55,6 @@
             margin-bottom: 5px;
             font-weight: bold;
             text-align: left;
-            /* Align labels to the left for better readability */
         }
 
         .form-group input,
@@ -96,52 +103,56 @@
             display: block;
             margin-top: 10px;
         }
+
+        h2 {
+            margin-top: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h2>Cadastro do Produto</h2>
+        <h2>Cadastro</h2>
         <!-- Formulário para cadastrar novos produtos -->
         <form method="POST" action="/adicionaFuncionario">
             <!-- Campo de entrada para o nome do produto -->
             <div class="form-group">
-                <label>Nome do Produto:</label>
+                <label>Tipo da Bebida:</label>
                 <input type="text" name="txtNome" placeholder="Digite..." id="txtNome">
             </div>
             <!-- Campo de entrada para a marca do produto -->
             <div class="form-group">
-                <label>Marca do Produto:</label>
+                <label>Marca da Bebida:</label>
                 <input type="text" name="txtMarca" placeholder="Digite..." id="txtMarca">
             </div>
             <!-- Campo de entrada para a quantidade do produto -->
             <div class="form-group">
-                <label>Quantidade do Produto:</label>
+                <label>Quantidade:</label>
                 <input type="number" name="numQuantidade" placeholder="Digite..." id="txtQuantidade">
             </div>
             <!-- Campo de entrada para o fornecedor do produto -->
             <div class="form-group">
-                <label>Fornecedor do Produto:</label>
+                <label>Fornecedor da Bebida:</label>
                 <input type="text" name="txtFornecedor" placeholder="Digite..." id="txtFornecedor">
             </div>
             <!-- Campo de entrada para o preço de compra do produto -->
             <div class="form-group">
-                <label>Preço de Compra do Produto:</label>
+                <label>Preço de Compra da Bebida:</label>
                 <input type="text" name="txtPreçoCompra" placeholder="Digite..." id="txtPreçoCompra">
             </div>
             <!-- Campo de entrada para o preço de venda do produto -->
             <div class="form-group">
-                <label>Preço de Venda do Produto:</label>
+                <label>Preço de Venda da Bebida:</label>
                 <input type="text" name="txtPreçoVenda" placeholder="Digite..." id="txtPreçoVenda">
             </div>
             <!-- Campo de entrada para a data de entrada do produto -->
             <div class="form-group">
-                <label>Data de Entrada do Produto:</label>
+                <label>Data de Entrada da Bebida:</label>
                 <input type="date" name="dateDataEntrada" placeholder="Digite..." id="dateDataEntrada">
             </div>
             <!-- Campo de entrada para a data de validade do produto -->
             <div class="form-group">
-                <label>Data de Validade do Produto:</label>
+                <label>Data de Validade da Bebida:</label>
                 <input type="date" name="dateDataValidade" placeholder="Digite..." id="dateDataValidade">
             </div>
             <!-- Botão para submeter o formulário -->

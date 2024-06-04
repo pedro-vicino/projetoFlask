@@ -49,7 +49,7 @@
     <!-- Cabeçalho da tabela -->
     <thead class="table-dark">
         <tr>
-            <th>Nome</th>
+            <th>Tipo</th>
             <th>Marca</th>
             <th>Quantidade</th>
             <th>Fornecedor</th>
@@ -70,8 +70,8 @@
             <td>{{ produto.marca }}</td>
             <td>{{ produto.quantidade }}</td>
             <td>{{ produto.forn_prod }}</td>
-            <td>{{ produto.preco_compra }}</td>
-            <td>{{ produto.preco_venda }}</td>
+            <td>R${{ produto.preco_compra }}</td>
+            <td>R${{ produto.preco_venda }}</td>
             <td>{{ produto.data_entrada_prod }}</td>
             <td>{{ produto.data_valid_prod }}</td>
             <!-- Link para a página de edição do produto específico -->

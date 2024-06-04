@@ -10,11 +10,12 @@ app = Flask(__name__)
 app.secret_key = 'usuario_logado'
 
 # Configuração do banco de dados usando SQLAlchemy
+# Atente-se em inserir as informações corretas para a conexão não falhar
 app.config['SQLALCHEMY_DATABASE_URI'] = \
     '{SGBD}://{usuario}:{senha}@{servidor}/{database}'.format(
         SGBD='mysql+mysqlconnector',
         usuario='root',
-        senha='cida2011',
+        senha='x',
         servidor='localhost',
         database='controle_de_estoque'
     )
