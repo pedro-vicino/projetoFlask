@@ -1,8 +1,11 @@
 Projeto Controle de Estoque
 
-- A aplicação apresentada à empresa DSofs, uma loja especializada na venda de diversas bebidas, consiste em um programa de controle de estoque que exibe informações detalhadas sobre os produtos por meio de uma lista e permite o cadastro de novas bebidas por intermédio de um formulário. Ao iniciar a aplicação, é exibida uma tela de login que requer o nome de usuário e a senha. Caso o usuário seja um administrador, ele terá permissão não apenas para visualizar e cadastrar novas bebidas, mas também para editar e excluir produtos, através de botões disponíveis na lista. Se o usuário for um funcionário, ele poderá apenas visualizar e cadastrar novos produtos.
+A aplicação apresentada à empresa DSofs, uma loja especializada na venda de diversas bebidas, consiste em um programa de controle de estoque que exibe informações detalhadas sobre os produtos por meio de uma lista e permite o cadastro de novas bebidas por intermédio de um formulário. Ao iniciar a aplicação, é exibida uma tela de login que requer o nome de usuário e a senha. Caso o usuário seja um administrador, ele terá permissão não apenas para visualizar e cadastrar novas bebidas, mas também para editar e excluir produtos, através de botões disponíveis na lista. Se o usuário for um funcionário, ele poderá apenas visualizar e cadastrar novos produtos.
+  
 Para gerenciar os usuários registrados no sistema ou adicionar novos usuários, é necessário acessar diretamente o banco de dados, onde os nomes de usuário e senhas são exclusivamente criados. Após efetuar o login, o usuário será redirecionado para a lista de bebidas cadastradas no sistema, a qual exibe informações como tipo, marca, fornecedor, preço de compra (por unidade), preço de venda (por unidade), data de entrada, data de validade e quantidade em estoque.
+
 Acima da lista, há três botões: "Lista", que redireciona para a lista de bebidas; "Cadastrar", que leva ao formulário de cadastro; e "Sair", que realiza o logout e limpa a sessão do usuário. Ao optar por sair do sistema, o usuário terá que realizar o login novamente para acessar qualquer funcionalidade, não sendo possível acessar as rotas diretamente pela URL.
+
 Caso um usuário tente acessar uma URL de administrador enquanto logado como funcionário, ou vice-versa, o programa redirecionará automaticamente para a página de login. Dessa forma, garante-se que apenas usuários com as permissões adequadas possam acessar as respectivas funcionalidades.
 
 - OBS:
