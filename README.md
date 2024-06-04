@@ -1,6 +1,5 @@
 Projeto Controle de Estoque
 
-<<<<<<< HEAD
 A aplicação apresenta à empresa DSofs, uma loja que possui diversas bebidas, um programa que controla o estoque da empresa, mostrando informações sobre as bebidas através de uma lista e o cadastro de um produto através de um formulário. Se o usuário for um administrador, além de poder ler e criar uma nova bebida, ele ainda pode editar e excluir através de botões que aparecem na lista. Se o usuário for um funcionário, ele apenas pode ler e criar um novo produto. Antes de tudo, o usuário precisa informar seu nome e senha, que somente são criados dentro do banco de dados. Caso o usuário escolha sair do sistema, ele terá que logar novamente, e não conseguirá acessar as rotas através da URL.
 
 OBS:
