@@ -73,10 +73,12 @@ class usuario(db.Model):
     isAdmin = db.Column(db.Boolean, nullable=False)
 
 # Rotas e funções do Flask
+
 @app.route('/listaAdmin')
 def listaAdmin():
-    if 'admin_logado' not in session or session['admin_logado'] == None :
-	    return redirect('/')
+    # Verifica se o administrador está logado
+    if 'admin_logado' not in session or session['admin_logado'] == None:
+        return redirect('/')
     # Rota para exibir uma lista de produtos
     lista_produtos = produtos.query.order_by(produtos.id_produtos)
     session.pop('funcionario_logado', None)
@@ -84,8 +86,9 @@ def listaAdmin():
 
 @app.route('/listaFuncionario')
 def listaFuncionario():
-    if 'funcionario_logado' not in session or session['funcionario_logado'] == None :
-	    return redirect('/')
+    # Verifica se o funcionário está logado
+    if 'funcionario_logado' not in session or session['funcionario_logado'] == None:
+        return redirect('/')
     # Rota para exibir uma lista de produtos
     lista_produtos = produtos.query.order_by(produtos.id_produtos)
     session.pop('admin_logado', None)
@@ -93,15 +96,17 @@ def listaFuncionario():
 
 @app.route('/cadastroAdmin')
 def cadastrarAdmin():
+    # Verifica se o administrador está logado
     if 'admin_logado' not in session or session['admin_logado'] == None:
-	    return redirect('/')
+        return redirect('/')
     # Rota para exibir o formulário de cadastro
     return render_template('cadastro_admin.html')
 
-@app.route('/cadastroFuncionario')   
+@app.route('/cadastroFuncionario')
 def cadastrarFuncionario():
+    # Verifica se o funcionário está logado
     if 'funcionario_logado' not in session or session['funcionario_logado'] == None:
-	    return redirect('/')
+        return redirect('/')
     # Rota para exibir o formulário de cadastro
     return render_template('cadastro_funcionario.html')
 
@@ -136,7 +141,7 @@ def adicionaAdmin():
     db.session.add(novo_produto)
 
     # Salvando as mudanças no banco de dados
-    db.session.commit()  
+    db.session.commit()
 
     # Redirecionando para a página de lista após a adição do produto
     return redirect('/listaAdmin')
@@ -172,20 +177,19 @@ def adicionaFuncionario():
     db.session.add(novo_produto)
 
     # Salvando as mudanças no banco de dados
-    db.session.commit()  
+    db.session.commit()
 
     # Redirecionando para a página de lista após a adição do produto
     return redirect('/listaFuncionario')
 
 @app.route('/editar/<int:id>')
-def editar(id) :
+def editar(id):
     # Rota para exibir o formulário de edição de um produto específico
     produtoSelecionado = produtos.query.filter_by(id_produtos = id).first()
-    
     return render_template('editar.html', produto = produtoSelecionado)
 
 @app.route('/atualizar', methods=['POST'])
-def atualizar() :
+def atualizar():
     # Rota para processar a atualização dos dados de um produto específico
     produto = produtos.query.filter_by(id_produtos = request.form['txtID']).first()
 
@@ -203,7 +207,7 @@ def atualizar() :
     db.session.add(produto)
     
     # Salvando as mudanças no banco de dados
-    db.session.commit()  
+    db.session.commit()
 
     # Ao atualizar o produto, o usuário é redirecionado à página de lista
     return redirect('/listaAdmin')
@@ -221,12 +225,11 @@ def excluir(id):
 
 @app.route('/')
 def index():
-    # renderiza o arquivo login.html na rota principal
+    # Renderiza o arquivo login.html na rota principal
     return render_template('login.html')
 
 @app.route('/login', methods=['POST'])
 def login():
-
     # Dados do formulário do login.html
     nome = request.form['txtNomeUsuario']
     senha_hash = request.form['txtSenha_hash']
@@ -235,18 +238,19 @@ def login():
     usuarios = usuario.query.filter_by(nome=nome).first()
 
     # Verifica se o usuário existe e se a senha fornecida corresponde à senha armazenada
-    if usuarios and usuarios.senha_hash == senha_hash :
+    if usuarios and usuarios.senha_hash == senha_hash:
         if usuarios.isAdmin == 1:
-        # Se as credenciais estiverem corretas, redireciona para a página /listaAdmin, lista do administrador
+            # Se as credenciais estiverem corretas, redireciona para a página /listaAdmin, lista do administrador
             session['admin_logado'] = nome
             return redirect('/listaAdmin')
-        # Se as credenciais estiverem corretas, redireciona para a página /listaFuncionario, lista do funcionário
         elif usuarios.isAdmin == 0:
+            # Se as credenciais estiverem corretas, redireciona para a página /listaFuncionario, lista do funcionário
             session['funcionario_logado'] = nome
             return redirect('/listaFuncionario')
     else:
         # Se as credenciais estiverem incorretas, retorna uma mensagem de erro e um status HTTP 401 (não autorizado)
         return redirect('/')
+
 @app.route('/logout')
 def logout():
     # Limpa a sessão do usuário
@@ -254,5 +258,6 @@ def logout():
     session.pop('funcionario_logado', None)
     # Redireciona o usuário para a página de login
     return redirect('/')
+
 # Execução do aplicativo Flask
 app.run()

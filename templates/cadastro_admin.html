@@ -1,42 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Produtos</title>
+    <!-- Import Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap"
+        rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-        * {
-            font-family: 'Poppins', Arial, Helvetica, sans-serif;
-        }
-
         body {
+            font-family: 'Poppins', Arial, Helvetica, sans-serif;
             background-color: #f0f0f0;
             margin: 0;
-            padding: 20px;
-            /* Espaçamento na borda da tela */
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             box-sizing: border-box;
-            /* Inclui o padding no cálculo da altura */
         }
 
         .container {
             background-color: #fff;
-            padding: 20px;
+            padding: 20px 20px 20px 20px;
+            /* Added padding for all sides */
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 400px;
+            text-align: center;
         }
 
         .container h2 {
             font-family: 'Montserrat Alternates', sans-serif;
             margin-bottom: 20px;
             font-size: 24px;
-            text-align: center;
         }
 
         .form-group {
@@ -47,6 +46,8 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            text-align: left;
+            /* Align labels to the left for better readability */
         }
 
         .form-group input,
@@ -56,6 +57,7 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
+            box-sizing: border-box;
         }
 
         button {
@@ -82,29 +84,22 @@
             text-decoration: none;
             border-radius: 5px;
             display: block;
-            text-align: center;
             margin-top: 10px;
         }
 
         .back2-btn {
-            background-color: #c10d0d;
+            background-color: #ff0000;
             color: white;
             padding: 10px 20px;
             text-decoration: none;
             border-radius: 5px;
             display: block;
-            text-align: center;
             margin-top: 10px;
         }
     </style>
-    <!-- Importação do Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Estoque</title>
 </head>
 
 <body>
-    <!-- Container para agrupar e estilizar o conteúdo -->
     <div class="container">
         <h2>Cadastro do Produto</h2>
         <!-- Formulário para cadastrar novos produtos -->
@@ -152,9 +147,11 @@
             <!-- Botão para submeter o formulário -->
             <button type="submit">Cadastrar</button>
         </form>
-        <a href="/listaAdmin" class="back-btn">Voltar</a>
-        <a href="/logout" class="back2-btn">Logout</a>
+        <!-- Botão de Voltar -->
+        <a href="/listaAdmin" class="back-btn">Lista</a>
+        <a href="/logout" class="back2-btn">Sair</a>
     </div>
+
 </body>
 
 </html>

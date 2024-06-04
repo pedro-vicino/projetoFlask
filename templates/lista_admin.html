@@ -1,11 +1,50 @@
-<!-- Extende a estrutura base "estrutura.html" -->
+<!-- Extende a estrutura base "estrutura_admin.html" -->
 {% extends "estrutura_admin.html" %}
 
 {% block conteudo %}
-<!-- Início da tabela -->
 <style>
-    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        border: 1px solid #dddddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .edit-btn,
+    .delete-btn {
+        color: white;
+        padding: 5px 10px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .edit-btn {
+        background-color: #4CAF50;
+        /* Green */
+    }
+
+    .delete-btn {
+        background-color: #f44336;
+        /* Red */
+    }
 </style>
+
+<!-- Início da tabela de produtos -->
 <table class="table table-hover">
     <!-- Cabeçalho da tabela -->
     <thead class="table-dark">
@@ -22,6 +61,7 @@
             <th>Excluir</th>
         </tr>
     </thead>
+    <!-- Corpo da tabela -->
     <tbody>
         <!-- Loop através de todos os produtos para preencher as linhas da tabela -->
         {% for produto in todos_produtos %}
@@ -32,22 +72,19 @@
             <td>{{ produto.forn_prod }}</td>
             <td>{{ produto.preco_compra }}</td>
             <td>{{ produto.preco_venda }}</td>
-            <td>{{ produto.data_valid_prod }}</td>
             <td>{{ produto.data_entrada_prod }}</td>
+            <td>{{ produto.data_valid_prod }}</td>
             <!-- Link para a página de edição do produto específico -->
             <td>
                 <a href="{{ url_for('editar', id=produto.id_produtos) }}" class="edit-btn">Editar</a>
             </td>
             <!-- Link para a página de exclusão do produto específico -->
             <td>
-                <a href="{{url_for('excluir', id=produto.id_produtos)}}" class="delete-btn">Excluir</a>
+                <a href="{{ url_for('excluir', id=produto.id_produtos) }}" class="delete-btn">Excluir</a>
             </td>
         </tr>
         <!-- Fim do Loop -->
         {% endfor %}
     </tbody>
 </table>
-</body>
-
-</html>
 {% endblock %}

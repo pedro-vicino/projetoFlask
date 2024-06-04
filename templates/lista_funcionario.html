@@ -1,8 +1,49 @@
-<!-- Extende a estrutura base "estrutura.html" -->
+<!-- Extende a estrutura base "estrutura_funcionario.html" -->
 {% extends "estrutura_funcionario.html" %}
 
 {% block conteudo %}
-<!-- Início da tabela -->
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        border: 1px solid #dddddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .edit-btn,
+    .delete-btn {
+        color: white;
+        padding: 5px 10px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .edit-btn {
+        background-color: #4CAF50;
+        /* Green */
+    }
+
+    .delete-btn {
+        background-color: #f44336;
+        /* Red */
+    }
+</style>
+<!-- Início da tabela de produtos -->
 <table class="table table-hover">
     <!-- Cabeçalho da tabela -->
     <thead class="table-dark">
@@ -14,9 +55,10 @@
             <th>Preço de Compra</th>
             <th>Preço de Venda</th>
             <th>Data de Entrada</th>
-            <th>Data de Valid.</th>
+            <th>Data de Validade</th>
         </tr>
     </thead>
+    <!-- Corpo da tabela -->
     <tbody>
         <!-- Loop através de todos os produtos para preencher as linhas da tabela -->
         {% for produto in todos_produtos %}
@@ -27,14 +69,11 @@
             <td>{{ produto.forn_prod }}</td>
             <td>{{ produto.preco_compra }}</td>
             <td>{{ produto.preco_venda }}</td>
-            <td>{{ produto.data_valid_prod }}</td>
             <td>{{ produto.data_entrada_prod }}</td>
+            <td>{{ produto.data_valid_prod }}</td>
         </tr>
         <!-- Fim do Loop -->
         {% endfor %}
     </tbody>
 </table>
-</body>
-
-</html>
 {% endblock %}

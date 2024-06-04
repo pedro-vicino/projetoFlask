@@ -30,36 +30,29 @@
             display: flex;
             border-radius: 10px;
             overflow: hidden;
-            /* Para bordas arredondadas */
         }
 
         .login-box {
             background: #fff;
             padding: 40px;
             border-radius: 10px 0 0 10px;
-            /* Cantos arredondados na esquerda */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             position: relative;
             width: 500px;
-            /* Largura da caixa de login diminuída */
             height: 400px;
-
         }
 
         .black-box {
             background: #000;
             width: 600px;
-            /* Largura da caixa preta aumentada */
             border-radius: 0 10px 10px 0;
-            /* Cantos arredondados na direita */
         }
 
         .login-box h2 {
             margin-bottom: 20px;
             font-size: 24px;
             color: #333;
-
         }
 
         .user-box {
@@ -118,20 +111,25 @@
 <body>
     <div class="content">
         <div class="login-container">
+            <!-- Caixa de login -->
             <div class="login-box">
                 <h2>Login</h2>
                 <form action="/login" method="POST">
+                    <!-- Campo de entrada para o nome de usuário -->
                     <div class="user-box">
-                        <input type="text" id="txtNomeUsuario" name="txtNomeUsuario">
+                        <input type="text" id="txtNomeUsuario" name="txtNomeUsuario" required>
                         <label>Usuário</label>
                     </div>
+                    <!-- Campo de entrada para a senha -->
                     <div class="user-box">
-                        <input type="password" id="txtSenha_hash" name="txtSenha_hash">
+                        <input type="password" id="txtSenha_hash" name="txtSenha_hash" required>
                         <label>Senha</label>
                     </div>
+                    <!-- Botão de envio do formulário -->
                     <button type="submit">Entrar</button>
                 </form>
             </div>
+            <!-- Caixa preta ao lado do formulário de login -->
             <div class="black-box"></div>
         </div>
     </div>
